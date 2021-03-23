@@ -11,6 +11,7 @@ import 'package:cli_util/cli_logging.dart';
 /// will be used to list the options.
 class Menu<T> {
   static const String _ansiEscape = '\x1b[';
+  final arrow = String.fromCharCodes(Runes('\u{25B6}'));
 
   /// The provided options.
   final List<T> _options;
@@ -88,7 +89,7 @@ class Menu<T> {
       _moveUp(_options.length);
       for (var i = 0; i < _options.length; i += 1) {
         final humanIndex = i + 1;
-        _stdout.write(i == currentIndex ? '--> ' : '    ');
+        _stdout.write(i == currentIndex ? '$arrow   ' : '    ');
         _stdout.write('$humanIndex'.padLeft(3));
         _stdout.write(') ');
         _stdout.writeln(_sanitizeLength(_options[i].toString()));
@@ -189,7 +190,7 @@ class Menu<T> {
   /// ends the string with `"..."`.
   String _sanitizeLength(String input) {
     // Default terminal width (80) minus the leading characters.
-    const maxLength = 80 - '-->   1) '.length;
+    final maxLength = 80 - '$arrow   1) '.length;
     if (input.length <= maxLength) return input;
     return input.substring(0, maxLength - 3) + '...';
   }
