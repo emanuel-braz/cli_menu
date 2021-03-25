@@ -58,7 +58,10 @@ class Menu<T> {
   /// This is a blocking operation.
   ///
   /// Returns the [MenuResult].
-  MenuResult<T> choose() {
+  MenuResult<T> choose({String? message}) {
+
+    if (message != null) _stdout.writeln(message);
+    
     _SimpleResult result;
     if (_useAnsi) {
       result = _chooseAnsi();
